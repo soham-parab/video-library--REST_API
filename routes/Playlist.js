@@ -18,11 +18,10 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
    console.log(req.body._id);
    try {
-      const likedVideo = new Playlist({
+      const playlist = new Playlist({
          title: req.body.title,
          description: req.body.description,
          images: req.body.images,
-
          runtime: req.body.runtime,
          total_ratings: req.body.total_ratings,
          category: req.body.category,
@@ -31,7 +30,7 @@ router.post("/", async (req, res) => {
          channel: req.body.channel,
          views: req.body.views,
       });
-      const savedItem = await productItem.save();
+      const savedItem = await playlist.save();
       res.json(savedItem);
    } catch (err) {
       res.json({ message: err });
@@ -58,13 +57,13 @@ router.delete("/:itemId", async (req, res) => {
 
 router.patch("/:prdId", async (req, res) => {
    try {
-      const updatedPrd = await Playlist.updateOne(
+      const updatedVid = await Playlist.updateOne(
          { _id: req.params.prdId },
          {}
       );
-      const newPrd = await Playlist.find();
-      res.json(newPrd);
-      console.log(updatedPrd);
+      const newVid = await Playlist.find();
+      res.json(newVid);
+      console.log(updatedVid);
    } catch (err) {
       res.json({ message: err });
       console.log(err);

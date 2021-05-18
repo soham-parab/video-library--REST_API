@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
    console.log(req.body._id);
    try {
-      const likedVideo = new likedVideos({
+      const videos = new Videos({
          title: req.body.title,
          description: req.body.description,
          images: req.body.images,
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
          channel: req.body.channel,
          views: req.body.views,
       });
-      const savedItem = await productItem.save();
+      const savedItem = await videos.save();
       res.json(savedItem);
    } catch (err) {
       res.json({ message: err });
