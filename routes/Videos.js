@@ -2,7 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 
-const Videos = require("../models/videos");
+const Videos = require("../models/Videos");
+
+console.log(Videos);
 
 //GET POSTS
 router.get("/", async (req, res) => {
@@ -16,6 +18,7 @@ router.get("/", async (req, res) => {
 
 //SUBMITS POST
 router.post("/", async (req, res) => {
+   console.log(req.body);
    console.log(req.body._id);
    try {
       const videos = new Videos({

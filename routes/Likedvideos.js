@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const LikedVideos = require("../models/likedvideos");
+const Likedvids = require("../models/likedvideos");
 
 //GET POSTS
 router.get("/", async (req, res) => {
    try {
-      const likedVideos = await LikedVideos.find();
+      const likedVideos = await Likedvids.find();
       res.json(likedVideos);
    } catch (err) {
       res.json({ message: err });
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
    console.log(req.body._id);
    try {
-      const likedVideo = new LikedVideos({
+      const likedVideo = new Likedvids({
          title: req.body.title,
          description: req.body.description,
          images: req.body.images,
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
 
 router.get("/:itemId", async (req, res) => {
    try {
-      const itemFound = await LikedVideos.findById(req.params.itemId);
+      const itemFound = await Likedvids.findById(req.params.itemId);
       res.json(itemFound);
    } catch (err) {
       res.json({ message: err });
@@ -48,7 +48,7 @@ router.get("/:itemId", async (req, res) => {
 
 router.delete("/:itemId", async (req, res) => {
    try {
-      const removeItem = await LikedVideos.remove({ _id: req.params.itemId });
+      const removeItem = await Likedvids.remove({ _id: req.params.itemId });
       res.json(removeItem);
    } catch (err) {
       res.json({ message: err });
@@ -57,11 +57,11 @@ router.delete("/:itemId", async (req, res) => {
 
 router.patch("/:prdId", async (req, res) => {
    try {
-      const updatedPrd = await LikedVideos.updateOne(
+      const updatedPrd = await Likedvids.updateOne(
          { _id: req.params.prdId },
          {}
       );
-      const newPrd = await LikedVideos.find();
+      const newPrd = await Likedvids.find();
       res.json(newPrd);
       console.log(updatedPrd);
    } catch (err) {
