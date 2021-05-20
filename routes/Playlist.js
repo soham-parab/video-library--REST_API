@@ -16,24 +16,43 @@ router.get("/", async (req, res) => {
 
 //SUBMITS POST
 router.post("/", async (req, res) => {
-   console.log(req.body._id);
    try {
-      const playlist = new Playlist({
-         title: req.body.title,
-         description: req.body.description,
-         images: req.body.images,
-         runtime: req.body.runtime,
-         total_ratings: req.body.total_ratings,
-         category: req.body.category,
-         video: req.body.video,
-         categoryId: req.body.categoryId,
-         channel: req.body.channel,
-         views: req.body.views,
-      });
+      const playlist = new Playlist(req.body);
       const savedItem = await playlist.save();
       res.json(savedItem);
    } catch (err) {
       res.json({ message: err });
+   }
+});
+
+// router.post("/:itemId", async (req, res) => {
+//    try {
+//       const playlist = new Playlist(req.body);
+//       const savedItem = await playlist.save();
+//       res.json(savedItem);
+//    } catch (err) {
+//       res.json({ message: err });
+//    }
+// });
+
+router.post("/:itemId", async (req, res) => {
+   console.log(req.params.itemId);
+   console.log(req.body.videos);
+
+   try {
+      const newVid = await Playlist.updateOne(
+         { _id: req.params.itemId },
+
+         // { $push: { videos: { $each: [req.body.videos] } } }
+         // { $set: { videos: req.body.videos } }
+         req.body
+      );
+      console.log(newVid);
+      const newVids = await Playlist.find();
+      res.json(newVids);
+   } catch (err) {
+      res.json({ message: err });
+      console.log(err);
    }
 });
 
@@ -55,19 +74,30 @@ router.delete("/:itemId", async (req, res) => {
    }
 });
 
-router.patch("/:prdId", async (req, res) => {
-   try {
-      const updatedVid = await Playlist.updateOne(
-         { _id: req.params.prdId },
-         {}
-      );
-      const newVid = await Playlist.find();
-      res.json(newVid);
-      console.log(updatedVid);
-   } catch (err) {
-      res.json({ message: err });
-      console.log(err);
-   }
-});
+// router.patch("/:prdId", async (req, res) => {
+//    try {
+//       const updatedVid = await Playlist.updateOne(
+//          { _id: req.params.prdId },
+//          {}
+//       );
+//       const newVid = await Playlist.find();
+//       res.json(newVid);
+//       console.log(updatedVid);
+//    } catch (err) {
+//       res.json({ message: err });
+//       console.log(err);
+//    }
+// });
 
 module.exports = router;
+
+// title: req.body.title,
+//          description: req.body.description,
+//          images: req.body.images,
+//          runtime: req.body.runtime,
+//          total_ratings: req.body.total_ratings,
+//          category: req.body.category,
+//          video: req.body.video,
+//          categoryId: req.body.categoryId,
+//          channel: req.body.channel,
+//          views: req.body.views,
