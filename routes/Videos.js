@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const Videos = require("../models/Videos");
+const Videos = require("../models/videos");
 
 console.log(Videos);
 
@@ -18,23 +18,10 @@ router.get("/", async (req, res) => {
 
 //SUBMITS POST
 router.post("/", async (req, res) => {
-   console.log(req.body);
-   console.log(req.body._id);
    try {
-      const videos = new Videos({
-         title: req.body.title,
-         description: req.body.description,
-         images: req.body.images,
-
-         runtime: req.body.runtime,
-         total_ratings: req.body.total_ratings,
-         category: req.body.category,
-         video: req.body.video,
-         categoryId: req.body.categoryId,
-         channel: req.body.channel,
-         views: req.body.views,
-      });
-      const savedItem = await videos.save();
+      const videos = req.body;
+      const newVideo = new Videos(videos);
+      const savedItem = await newVideo.save();
       res.json(savedItem);
    } catch (err) {
       res.json({ message: err });
@@ -60,3 +47,24 @@ router.delete("/:itemId", async (req, res) => {
 });
 
 module.exports = router;
+
+// const videos = new Videos({
+
+// title: req.body.title,
+// description: req.body.description,
+// thumbnail: req.body.thumbnail,
+// runtime: {
+//    minutes: req.body.minutes,
+//    seconds: req.body.seconds,
+// },
+
+// video: req.body.video,
+// categoryId: req.body.categoryId,
+// // subcategory: {
+// //    type: req.body.category.type,
+// //    name: req.body.category.name,
+// // },
+
+// channel: req.body.channel,
+// views: req.body.views,
+// });

@@ -18,7 +18,6 @@ const PORT = 3100;
 //MIDDLEWARES
 app.use(bodyParser.json());
 app.use(cors());
-
 app.use("/likedvideos", likedVideosRoute);
 app.use("/watchlater", watchLaterRoute);
 app.use("/videos", videosRoute);
