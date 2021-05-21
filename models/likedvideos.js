@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const LikedVideosSchema = mongoose.Schema({
    title: String,
-   description: [],
-   images: [],
-   runtime: Number,
+   description: String,
+   thumbnail: [],
+   runtime: { minutes: Number, seconds: Number },
    video: String,
    categoryId: Number,
-   subcategory: { type: String, name: String },
+   subcategory: { typer: String, name: String },
    channel: String,
    views: Number,
 });

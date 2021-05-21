@@ -17,20 +17,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
    console.log(req.body._id);
    try {
-      const likedVideo = new Likedvids({
-         title: req.body.title,
-         description: req.body.description,
-         images: req.body.images,
-
-         runtime: req.body.runtime,
-         total_ratings: req.body.total_ratings,
-         category: req.body.category,
-         video: req.body.video,
-         categoryId: req.body.categoryId,
-         channel: req.body.channel,
-         views: req.body.views,
-      });
-      const savedItem = await likedVideo.save();
+      const videos = req.body;
+      const newVideo = new Likedvids(videos);
+      const savedItem = await newVideo.save();
       res.json(savedItem);
    } catch (err) {
       res.json({ message: err });
