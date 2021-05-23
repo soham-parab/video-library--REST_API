@@ -4,6 +4,8 @@ const router = express.Router();
 
 const Playlist = require("../models/playlist");
 
+const { extend } = require("lodash");
+
 //GET POSTS
 router.get("/", async (req, res) => {
    try {
@@ -25,6 +27,8 @@ router.post("/", async (req, res) => {
       res.json({ message: err });
    }
 });
+
+
 
 router.post("/update/:id", async(req, res)=>{
  try {
@@ -61,15 +65,41 @@ router.post("/update/:id", async(req, res)=>{
    }
 } )
 
-// router.post("/:itemId", async (req, res) => {
-//    try {
-//       const playlist = new Playlist(req.body);
-//       const savedItem = await playlist.save();
-//       res.json(savedItem);
-//    } catch (err) {
-//       res.json({ message: err });
-//    }
-// });
+
+router.delete("/delete", async(req, res)=>{
+ try {let {playlistId,videoId} = req.body
+      const playlist = await Playlist.findById(playlistId);
+
+
+ console.log(playlist, "playlist 22")
+      
+
+     
+
+      // const oldVids = playlist.videos
+      // const removeVideo = playlist.videos._id
+      // console.log(removeVideo)
+
+
+
+      // 
+
+    
+    let newdata= {...playlist, videos:playlist.videos.filter((item) => item._id !== videoId)}
+    
+ 
+      let data=extend(playlist,newdata);
+
+      const savedData = await data.save()
+
+      res.json(savedData)
+        } catch (err) {
+     res.json({ message: err });
+     console.log(err)
+
+   }
+} )
+
 
 router.post("/:itemId", async (req, res) => {
    console.log(req.params.itemId);
@@ -77,10 +107,8 @@ router.post("/:itemId", async (req, res) => {
 
    try {
       const newVid = await Playlist.updateOne(
-         { _id: req.params.itemId },
+         { _id: req.params.itemId },         
 
-         // { $push: { videos: { $each: [req.body.videos] } } }
-         // { $set: { videos: req.body.videos } }
          req.body
       );
       console.log(newVid);
@@ -110,30 +138,7 @@ router.delete("/:itemId", async (req, res) => {
    }
 });
 
-// router.patch("/:prdId", async (req, res) => {
-//    try {
-//       const updatedVid = await Playlist.updateOne(
-//          { _id: req.params.prdId },
-//          {}
-//       );
-//       const newVid = await Playlist.find();
-//       res.json(newVid);
-//       console.log(updatedVid);
-//    } catch (err) {
-//       res.json({ message: err });
-//       console.log(err);
-//    }
-// });
+
 
 module.exports = router;
 
-// title: req.body.title,
-//          description: req.body.description,
-//          images: req.body.images,
-//          runtime: req.body.runtime,
-//          total_ratings: req.body.total_ratings,
-//          category: req.body.category,
-//          video: req.body.video,
-//          categoryId: req.body.categoryId,
-//          channel: req.body.channel,
-//          views: req.body.views,
