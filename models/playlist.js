@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PlaylistSchema = mongoose.Schema({
-   playlist: {
+  
       name: String,
       videos: [
          // {
@@ -16,7 +16,7 @@ const PlaylistSchema = mongoose.Schema({
          //    views: Number,
          // },
       ],
-   },
+  
 });
 
 module.exports = mongoose.model("Playlist", PlaylistSchema);

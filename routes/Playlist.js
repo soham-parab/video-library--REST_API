@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
    }
 });
 
+
 //SUBMITS POST
 router.post("/", async (req, res) => {
    try {
@@ -24,6 +25,41 @@ router.post("/", async (req, res) => {
       res.json({ message: err });
    }
 });
+
+router.post("/update/:id", async(req, res)=>{
+ try {
+      const playlist = await Playlist.findById(req.params.id);
+
+      console.log(playlist, "playlist 22")
+
+      const oldVids = playlist.videos
+
+
+
+      const newVid = [...oldVids, req.body.video]
+
+      console.log(newVid , "newVid 30" )
+
+
+      const savedPlaylist = await Playlist.updateOne( {_id : req.params.id
+
+      }, {
+        $set:{videos:newVid}
+      })
+
+
+      console.log(savedPlaylist, "savedPlaylist 40")
+
+      const getPlaylist = await Playlist.findById(req.params.id);
+
+
+      res.json(getPlaylist);
+   } catch (err) {
+     res.json({ message: err });
+     console.log(err)
+
+   }
+} )
 
 // router.post("/:itemId", async (req, res) => {
 //    try {

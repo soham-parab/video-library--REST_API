@@ -60,3 +60,8 @@ router.patch("/:prdId", async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+
+ 
