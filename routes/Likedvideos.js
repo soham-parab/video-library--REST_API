@@ -38,7 +38,10 @@ router.get("/:itemId", async (req, res) => {
 router.delete("/:itemId", async (req, res) => {
    try {
       const removeItem = await Likedvids.remove({ _id: req.params.itemId });
-      res.json(removeItem);
+      
+      const savedLikedVideos = await Likedvids.find()
+      res.json(savedLikedVideos);
+
    } catch (err) {
       res.json({ message: err });
    }

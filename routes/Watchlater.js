@@ -39,7 +39,9 @@ router.get("/:itemId", async (req, res) => {
 router.delete("/:itemId", async (req, res) => {
    try {
       const removeItem = await WatchLater.remove({ _id: req.params.itemId });
-      res.json(removeItem);
+
+  const savedWatchLater = await WatchLater.find()
+      res.json(savedWatchLater);
    } catch (err) {
       res.json({ message: err });
    }
